@@ -4,35 +4,42 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-ctx.fillStyle = 'white';
+ctx.strokeStyle = 'white';
+currentPath = null;
+paths = [];
 
 let mouseDown = false;
 let xOld, yOld, x, y;
-canvas.onmousedown = function(e) { mouseDown =  true; }
-canvas.onmouseup =   function(e) { mouseDown = false; }
+canvas.onmousedown = function(e) {
+    mouseDown =  true;
+    currentPath = [];
+}
+canvas.onmouseup =   function(e) {
+    mouseDown = false;
+    paths.push(currentPath);
+    currentPath = null;
+}
 canvas.onmousemove = function(e) {
     if (mouseDown) {
-        x = e.clientX - canvas.offsetLeft;
-        y = e.clientY - canvas.offsetTop;
-    } else {
-        x = null;
-        y = null;
+        currentPath.push({
+            x: e.clientX - canvas.offsetLeft,
+            y: e.clientY - canvas.offsetTop
+        });
     }
 }
 
 function draw() {
-    if (x && y) {
+    shownPaths = paths;
+    if (currentPath) {
+        shownPaths.push(currentPath);
+    }
+    for (path of shownPaths) {
         ctx.beginPath();
-        if (!(xOld || yOld)) {
-            xOld = x;
-            yOld = y;
+        ctx.moveTo(path[0].x, path[0].y);
+        for (point of path) {
+            ctx.lineTo(point.x, point.y);
         }
-        ctx.moveTo(xOld, yOld);
-        ctx.lineTo(x, y);
-        console.log(x, y);
         ctx.stroke();
     }
-    xOld = x;
-    yOld = y;
 }
 setInterval(draw, 1);
