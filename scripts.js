@@ -11,12 +11,16 @@ paths = [];
 let mouseDown = false;
 let xOld, yOld, x, y;
 canvas.onmousedown = function(e) {
-    mouseDown =  true;
+    console.log('Mouse down!');
+    mouseDown = true;
     currentPath = [];
 }
-canvas.onmouseup =   function(e) {
+canvas.onmouseup = function(e) {
+    console.log('Mouse up!');
     mouseDown = false;
-    paths.push(currentPath);
+    if (currentPath.length > 1) {
+        paths.push(currentPath);
+    }
     currentPath = null;
 }
 canvas.onmousemove = function(e) {
@@ -28,8 +32,19 @@ canvas.onmousemove = function(e) {
     }
 }
 
+function move() {
+    for (path of paths) {
+        offsetX = path[1].x - path[0].x;
+        offsetY = path[1].y - path[0].y;
+        point = path.shift();
+        point.x = path[path.length - 1].x + offsetX;
+        point.y = path[path.length - 1].y + offsetY;
+        path.push(point);
+    }
+}
 function draw() {
-    shownPaths = paths;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    shownPaths = paths.slice();
     if (currentPath) {
         shownPaths.push(currentPath);
     }
@@ -42,4 +57,7 @@ function draw() {
         ctx.stroke();
     }
 }
-setInterval(draw, 1);
+setInterval(function() {
+    move();
+    draw();
+}, 10);
