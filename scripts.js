@@ -5,4 +5,12 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 ctx.fillStyle = 'white';
-ctx.fillRect(0, 0, 30, 30);
+
+let mouseDown = false;
+canvas.onmousedown = function(e) { mouseDown =  true; }
+canvas.onmouseup =   function(e) { mouseDown = false; }
+
+function draw() {
+    console.log(mouseDown);
+}
+setInterval(draw, 100);
