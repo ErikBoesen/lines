@@ -5,6 +5,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 ctx.strokeStyle = 'white';
+ctx.lineWidth = 3;
 currentPath = null;
 paths = [];
 
