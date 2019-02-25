@@ -7,10 +7,24 @@ canvas.height = window.innerHeight;
 ctx.fillStyle = 'white';
 
 let mouseDown = false;
+let xOld, yOld, x, y;
 canvas.onmousedown = function(e) { mouseDown =  true; }
 canvas.onmouseup =   function(e) { mouseDown = false; }
-
-function draw() {
-    console.log(mouseDown);
+canvas.onmousemove = function(e) {
+    if (mouseDown) {
+        x = e.clientX - canvas.offsetLeft;
+        y = e.clientY - canvas.offsetTop;
+    } else {
+        x = null;
+        y = null;
+    }
 }
-setInterval(draw, 100);
+
+ctx.moveTo(0, 0);
+function draw() {
+    ctx.lineTo(x, y);
+    console.log(x);
+}
+setInterval(function() {
+    draw();
+}, 100);
