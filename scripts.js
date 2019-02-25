@@ -20,11 +20,19 @@ canvas.onmousemove = function(e) {
     }
 }
 
-ctx.moveTo(0, 0);
 function draw() {
-    ctx.lineTo(x, y);
-    console.log(x);
+    if (x && y) {
+        ctx.beginPath();
+        if (!(xOld || yOld)) {
+            xOld = x;
+            yOld = y;
+        }
+        ctx.moveTo(xOld, yOld);
+        ctx.lineTo(x, y);
+        console.log(x, y);
+        ctx.stroke();
+    }
+    xOld = x;
+    yOld = y;
 }
-setInterval(function() {
-    draw();
-}, 100);
+setInterval(draw, 1);
