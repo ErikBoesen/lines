@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+const instructions = document.getElementById('instructions');
+
 ctx.strokeStyle = 'white';
 ctx.lineWidth = 3;
 currentPath = null;
@@ -13,6 +15,9 @@ let mouseDown = false;
 let xOld, yOld, x, y;
 canvas.onmousedown = function(e) {
     console.log('Mouse down!');
+    if (instructions) {
+        instructions.parentNode.removeChild(instructions);
+    }
     mouseDown = true;
     currentPath = [];
 }
