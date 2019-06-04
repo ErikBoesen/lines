@@ -4,9 +4,20 @@
     box-sizing: border-box;
 }
 body {
-    background: #222;
+    background: #333;
     overflow-y: hidden;
+    font-family: Helvetica;
+    font-size: 40px;
+}
+#instructions {
+    display: block;
+    position: relative;
+    top: 50vh;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    z-index: -1;
 }
 canvas {
-    background: #333;
+    background: transparent;
 }
